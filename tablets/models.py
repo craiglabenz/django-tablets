@@ -1,9 +1,11 @@
 from __future__ import unicode_literals
 
 # Django
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template import Template as DjangoTemplate, Context
+from django.utils import module_loading
 
 # 3rd Party
 from annoying.fields import JSONField
@@ -20,6 +22,8 @@ class Template(models.Model):
         (DJANGO, 'Django',),
         (JINJA2, 'Jinja2',),
     )
+
+    JINJA2_NOT_FINISHED = "Error: Jinja2 templates do not handle inheritance correctly."
 
     name = models.CharField(max_length=255)
     content = models.TextField(blank=True)
@@ -40,14 +44,23 @@ class Template(models.Model):
         if self.template_engine == self.DJANGO:
             return DjangoTemplate
         elif self.template_engine == self.JINJA2:
-            raise NotImplementedError("Must teach `tablets.models.Template` how to render a Jinja template!")
+            # TODO: Finish this
+            raise NotImplementedError(self.JINJA2_NOT_FINISHED)
+
+            if not hasattr(settings, "JINJA2_TEMPLATE_CLASS"):
+                raise NotImplementedError("Must set ``JINJA2_TEMPLATE_CLASS`` to the dotted import path of a Jinja2 template class before Tablets can interface with Jinja2!")
+            return module_loading.import_by_path(dotted_path=settings.JINJA2_TEMPLATE_CLASS)
 
     def get_absolute_url(self):
         """Used for admin previewing"""
         return reverse("admin:tablets_template_render", args=(self.pk,))
 
     def as_template(self):
-        return self.template_engine_class(self.get_content())
+        if self.template_engine in [Template.DJANGO]:
+            return self.template_engine_class(self.get_content())
+        elif self.template_engine in [Template.JINJA2]:
+            # TODO: Finish this
+            raise NotImplementedError(self.JINJA2_NOT_FINISHED)
 
     def render(self, context={}):
         return self.as_template().render(Context(context))
@@ -63,7 +76,7 @@ class Template(models.Model):
         if self.parent:
             # If there's a parent, add the {% extends `parent-name` %}
             # tag at the top
-            content = "{%% extends '%s' %%}" % (self.parent.name,)
+            content = """{%% extends "%s" %%}""" % (self.parent.name,)
 
             for block in self.blocks.all():
                 content += "\n\n{%% block %s %%}%s{%% endblock %s %%}" % (block.name, block.content, block.name,)

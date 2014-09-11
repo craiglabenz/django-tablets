@@ -16,14 +16,17 @@ INSTALLED_APPS = [
     'core',
 ]
 
-
+######## TEMPLATES CONFIG
 TEMPLATE_LOADERS = (
-    # 'django_jinja.loaders.AppLoader',
-    # 'django_jinja.loaders.FileSystemLoader',
+    # 'django_jinja.loaders.AppLoader',  # Optional
+    # 'django_jinja.loaders.FileSystemLoader',  # Optional
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
     'tablets.loaders.DatabaseLoader',
 )
+JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
+######## END TEMPLATES CONFIG
+
 
 TEST_RUNNER = "django.test.runner.DiscoverRunner"
 

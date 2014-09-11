@@ -25,7 +25,7 @@ class TemplateTester(TestCase):
     def test_get_content(self):
         self.assertEquals(self.parent_template.get_content(), "Hello{% block content %}, {{ name }}{% endblock content %}!")
         self.assertIn("dearest ole pal, {{ name }}", self.child_template.get_content())
-        self.assertIn("{%% extends '%s' %%}" % (self.parent_template.name,), self.child_template.get_content())
+        self.assertIn("""{%% extends "%s" %%}""" % (self.parent_template.name,), self.child_template.get_content())
 
     def test_parent_render(self):
         self.assertEquals(self.parent_template.render_default(), "Hello, World!")
@@ -56,4 +56,22 @@ class ViewTester(TestCase):
         # The template includes a URL tag that happens
         # to resolve to... the same URL!
         self.assertIn(url, resp.content)
+
+class Jinja2Tester(TestCase):
+
+    def setUp(self):
+        super(Jinja2Tester, self).setUp()
+
+        self.j2template_parent = Template.objects.create(name="Jinja2 Parent", template_engine=Template.JINJA2, content="""
+           <p>This is a Jinja2 Template!</p> {% block content %}PARENT{% endblock content %}
+        """)
+
+        self.j2template_child = Template.objects.create(name="Jinja2 Child", parent=self.j2template_parent, template_engine=Template.JINJA2)
+        self.j2template_child.add_block(name="content", content="{{ super() }} CHILD")
+
+    def test_child_jinja2_render(self):
+        # TODO: Finish Jinja implementation!
+        return
+        self.assertEquals("PARENT CHILD", self.j2template_child.render())
+
 

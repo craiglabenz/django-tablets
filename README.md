@@ -1,6 +1,6 @@
 # django-tablets
 
-`tablets` is a database templating layer for Django. It works out of the gate with regular Django templates, or Jinja2 templates.
+`tablets` is a database templating layer for Django. It works out of the gate with regular Django templates, with Jinja2 support in progress.
 
 ## Installation
 
