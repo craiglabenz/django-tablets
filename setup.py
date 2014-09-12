@@ -21,7 +21,7 @@ setup(
     description="The ultimate database-driven Django template experience",
     long_description = (README + "\n" + CHANGES),
     url="https://github.com/craiglabenz/tablets",
-    download_url="https://github.com/craiglabenz/tablets/tarball/0.1",
+    download_url="https://github.com/craiglabenz/tablets/tarball/0.1.1",
     keywords=["django", "templates", "database-templates"],
     classifiers=CLASSIFIERS,
     install_requires=open("requirements.txt").readlines(),
