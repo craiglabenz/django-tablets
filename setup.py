@@ -11,16 +11,18 @@ CLASSIFIERS = [
     "Programming Language :: Python",
 ]
 
+INSTALL_REQUIRES = []
+
 setup(
-    name=__project__.lower(),
-    packages=[__project__.lower()],
+    name="tablets",
+    packages=find_packages("tablets"),
     version=__version__,
     description="The ultimate database-driven Django template experience",
     url="https://github.com/craiglabenz/tablets",
-    download_url="https://github.com/craiglabenz/tablets/tarball/0.1.2",
+    download_url="https://github.com/craiglabenz/tablets/tarball/{0}".format(__version__),
     keywords=["django", "templates", "database-templates"],
     classifiers=CLASSIFIERS,
-    install_requires=open("requirements.txt").readlines(),
+    install_requires=INSTALL_REQUIRES,
     author="Craig Labenz",
     author_email="craig.labenz@gmail.com",
     license="MIT"
