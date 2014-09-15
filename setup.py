@@ -1,8 +1,7 @@
-from __future__ import unicode_literals
+import os
 from distutils.core import setup
-from setuptools import find_packages
 
-from tablets import __project__, __version__
+from tablets import __version__
 
 
 CLASSIFIERS = [
@@ -15,7 +14,7 @@ INSTALL_REQUIRES = []
 
 setup(
     name="tablets",
-    packages=find_packages("tablets"),
+    packages=["tablets"],
     version=__version__,
     description="The ultimate database-driven Django template experience",
     url="https://github.com/craiglabenz/tablets",

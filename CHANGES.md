@@ -17,3 +17,15 @@ Changelog
 ------------------
 
  - Still trying to make PyPI happy
+
+
+ 0.1.3 (2014/09/11)
+------------------
+
+ - Still trying to make PyPI happy
+
+
+ 0.1.4 (2014/09/15)
+------------------
+
+ - Making PyPI happy (in theory!)
