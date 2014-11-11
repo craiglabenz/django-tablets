@@ -27,7 +27,6 @@ class DatabaseLoader(BaseLoader):
         """
         Wraps the Django or Jinja2 template loading particulars
         """
-        print "DatabaseLoader is fetching", template_name
         try:
             template = Template.objects.get(name=template_name)
             if template.template_engine == template.DJANGO:

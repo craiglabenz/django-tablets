@@ -12,3 +12,8 @@ Changelog
 
  - Adds Jinja2 support
 
+0.2.1 (2014/11/11)
+------------------
+
+ - Removes gnarly `print`
+
