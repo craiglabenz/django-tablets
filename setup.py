@@ -10,7 +10,9 @@ CLASSIFIERS = [
     "Programming Language :: Python",
 ]
 
-INSTALL_REQUIRES = []
+INSTALL_REQUIRES = [
+    "django-annoying",
+]
 
 setup(
     name="tablets",
