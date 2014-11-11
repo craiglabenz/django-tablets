@@ -42,6 +42,9 @@ INSTALLED_APPS = (
     'django_jinja',
     'tablets',
 )
+
+JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
+JINJA2_LOADER = "tablets.j2.loaders.Jinja2DatabaseOrFileLoader"
 ```
 
 
