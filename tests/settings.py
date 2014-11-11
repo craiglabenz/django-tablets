@@ -16,15 +16,21 @@ INSTALLED_APPS = [
     'core',
 ]
 
+
 ######## TEMPLATES CONFIG
 TEMPLATE_LOADERS = (
-    # 'django_jinja.loaders.AppLoader',  # Optional
-    # 'django_jinja.loaders.FileSystemLoader',  # Optional
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
+    'django_jinja.loaders.AppLoader',  # Optional, only needed if you also have .jinja file templates
+    'django_jinja.loaders.FileSystemLoader',  # Optional, only needed if you also have .jinja file templates
+    # 'django.template.loaders.filesystem.Loader', # Optional -- Not needed if you have the above jinja template loaders, as they encompass this logic
+    # 'django.template.loaders.app_directories.Loader', # Optional -- Not needed if you have the above jinja template loaders, as they encompass this logic
     'tablets.loaders.DatabaseLoader',
 )
 JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
+JINJA2_LOADER = "tablets.j2.loaders.Jinja2DatabaseOrFileLoader"
+
+TEMPLATE_DIRS = (
+    'templates',
+)
 ######## END TEMPLATES CONFIG
 
 

@@ -1,6 +1,6 @@
 # django-tablets
 
-`tablets` is a database templating layer for Django. It works out of the gate with regular Django templates, with Jinja2 support in progress.
+`tablets` is a database templating layer for Django. It works out of the box with regular Django templates, and requires only installing `django-jinja` to support Jinja2 templates.
 
 ## Installation
 
@@ -21,10 +21,29 @@ INSTALLED_APPS = (
 Add the `tablets` template loader to your `TEMPLATE_LOADERS` setting:
 ```py
 TEMPLATE_LOADERS = (
-    ...
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
     'tablets.loaders.DatabaseLoader',
 )
 ```
+
+## Jinja2 Support
+
+If you want to use Jinja2 templates, adjust the above config like so:
+```py
+TEMPLATE_LOADERS = (
+    'django_jinja.loaders.AppLoader',
+    'django_jinja.loaders.FileSystemLoader',
+    'tablets.loaders.DatabaseLoader',
+)
+
+INSTALLED_APPS = (
+    ...
+    'django_jinja',
+    'tablets',
+)
+```
+
 
 ## Usage
 
