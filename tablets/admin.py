@@ -1,21 +1,33 @@
 from __future__ import unicode_literals
 
 # Django
+from django.conf import settings
 from django.contrib import admin
 from django.conf.urls import url
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
+# 3rd Party
+from django_ace import AceWidget
+
 # Local Apps
 from .models import Template, TemplateBlock
 
 
-class TemplateBlockInline(admin.StackedInline):
-    extra = 0
+class AceWidgetMixin(object):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if getattr(settings, "USE_ACE_WIDGET", True) and db_field.name == "content":
+            kwargs["widget"] = AceWidget(mode=getattr(settings, "ACE_MODE", "twig"), theme=getattr(settings, "ACE_THEME", "chrome"))
+
+        return super(AceWidgetMixin, self).formfield_for_dbfield(db_field, **kwargs)
+
+
+class TemplateBlockInline(AceWidgetMixin, admin.TabularInline):
+    extra = 1
     model = TemplateBlock
 
 
-class TemplateAdmin(admin.ModelAdmin):
+class TemplateAdmin(AceWidgetMixin, admin.ModelAdmin):
     inlines = [TemplateBlockInline]
 
     @property

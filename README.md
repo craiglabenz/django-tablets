@@ -1,8 +1,15 @@
 # django-tablets
 
-`tablets` is a database templating layer for Django. It works out of the box with regular Django templates, and requires only installing `django-jinja` to support Jinja2 templates.
+* `tablets` is a database templating layer for Django.
+    * It works out of the box with regular Django templates, and requires only installing `django-jinja` to support Jinja2 templates.
+* `django-ace` is used to provide a nice in-browser editing experience.
 
-## Installation
+
+### Preview
+![Admin preview](https://raw.githubusercontent.com/craiglabenz/django-tablets/master/media/admin-change-form.png "Optional Title")
+
+
+### Installation
 
 Install using `pip`:
 
@@ -27,7 +34,7 @@ TEMPLATE_LOADERS = (
 )
 ```
 
-## Jinja2 Support
+### Jinja2 Support
 
 If you want to use Jinja2 templates, adjust the above config like so:
 ```py
@@ -47,8 +54,20 @@ JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
 JINJA2_LOADER = "tablets.j2.loaders.Jinja2DatabaseOrFileLoader"
 ```
 
+### Django-Ace in the Admin
+By default, `tablets` uses `django-ace` to use the great [AceWidget](http://ace.c9.io/build/kitchen-sink.html) to for admin in-browser editing.
 
-## Usage
+To disable or tweak these settings, adjust the following settings (default values shown):
+```py
+USE_ACE_WIDGET = True
+ACE_MODE = "twig"  # Provides syntax highlighting closest to Django/Jinja2 
+templates
+ACE_THEME = "chrome"
+```
+>The `django-ace` JavaScript works best with DOM elements that are in place on page ready, so behavior can be a little funny with additional inlines. It is suggested to add one `TemplateBlock` per form save to get around this.
+
+
+### Usage
 
 First, enter some templates into your Database.
 ```py

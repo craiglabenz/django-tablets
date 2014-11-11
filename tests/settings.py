@@ -9,13 +9,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sites',
 
+    'django_ace',
+
     # The templates library
     'tablets',
 
     # Houses some basic stuff
     'core',
 ]
-
 
 ######## TEMPLATES CONFIG
 TEMPLATE_LOADERS = (

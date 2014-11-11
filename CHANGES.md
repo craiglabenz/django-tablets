@@ -17,3 +17,7 @@ Changelog
 
  - Removes gnarly `print`
 
+0.3.0 (2014/11/11)
+------------------
+
+ - Adds `django-ace` to the admin

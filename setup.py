@@ -12,6 +12,7 @@ CLASSIFIERS = [
 
 INSTALL_REQUIRES = [
     "django-annoying",
+    "django-ace",
 ]
 
 setup(
