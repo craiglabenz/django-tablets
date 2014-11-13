@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import os
+import django
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -17,6 +18,14 @@ INSTALLED_APPS = [
     # Houses some basic stuff
     'core',
 ]
+
+if django.VERSION < (1, 7):
+    INSTALLED_APPS.append("south")
+
+    SOUTH_MIGRATION_MODULES = {
+        "tablets": "tablets.south_migrations"
+    }
+
 
 ######## TEMPLATES CONFIG
 TEMPLATE_LOADERS = (
