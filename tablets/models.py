@@ -77,7 +77,7 @@ class Template(models.Model):
         if self.template_engine in [Template.DJANGO]:
             return self.as_template().render(Context(context))
         else:
-            return self.as_template().render(**context)
+            return self.as_template().render(context)
 
     def render_default(self):
         return self.as_template().render(Context(self.default_context))

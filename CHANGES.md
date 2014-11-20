@@ -21,6 +21,11 @@ Changelog
  - Adds `django-ace` to the admin
 
 
-0.3.2 (2014/13/11)
+0.3.2 (2014/11/13)
 ------------------
  - Adds initial migrations
+
+
+0.3.3 (2014/11/20)
+------------------
+ - Fixes Jinaj2 rendering bug
