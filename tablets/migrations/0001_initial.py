@@ -27,22 +27,4 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        migrations.CreateModel(
-            name='TemplateBlock',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=255)),
-                ('content', models.TextField(blank=True)),
-                ('template', models.ForeignKey(related_name='blocks', to='tablets.Template')),
-            ],
-            options={
-                'verbose_name': 'Template Block',
-                'verbose_name_plural': 'Template Blocks',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.AlterUniqueTogether(
-            name='templateblock',
-            unique_together=set([('template', 'name')]),
-        ),
     ]
