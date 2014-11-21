@@ -11,6 +11,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'django_ace',
+    'mptt',
 
     # The templates library
     'tablets',

@@ -29,3 +29,8 @@ Changelog
 0.3.3 (2014/11/20)
 ------------------
  - Fixes Jinaj2 rendering bug
+
+
+0.4.0 (2014/11/21)
+------------------
+ - Adds mptt, removes "TemplateBlock" model

@@ -17,10 +17,11 @@ Install using `pip`:
 pip install tablets
 ```
 
-Add `tablets` to your `INSTALLED_APPS` setting:
+Add `tablets` and `mptt` to your `INSTALLED_APPS` setting:
 ```py
 INSTALLED_APPS = (
     ...
+    'mptt',
     'tablets',
 )
 ```
@@ -60,11 +61,9 @@ By default, `tablets` uses `django-ace` to use the great [AceWidget](http://ace.
 To disable or tweak these settings, adjust the following settings (default values shown):
 ```py
 USE_ACE_WIDGET = True
-ACE_MODE = "twig"  # Provides syntax highlighting closest to Django/Jinja2 
-templates
+ACE_MODE = "twig"  # Provides syntax highlighting closest to Django/Jinja2 templates
 ACE_THEME = "chrome"
 ```
->The `django-ace` JavaScript works best with DOM elements that are in place on page ready, so behavior can be a little funny with additional inlines. It is suggested to add one `TemplateBlock` per form save to get around this.
 
 
 ### Usage
@@ -78,8 +77,11 @@ parent = Template.objects.create(name="Site Base", content="""
        <p>This is a message from your friends at <code>Tablet</code>!</p>
    {% endblock body %}
 """)
-landing_page_template = Template.objects.create(name="Landing Page", parent=parent)
-landing_page_template.add_block(name="body", content="OVERRIDDEN FROM CHILD TEMPLATE!")
+landing_page_template = Template.objects.create(
+    name="Landing Page",
+    parent=parent,
+    content="""{% block body %}OVERRIDDEN FROM CHILD TEMPLATE!{% endblock body %}"""
+)
 ```
 
 ```py

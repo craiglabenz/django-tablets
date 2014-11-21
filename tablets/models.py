@@ -9,6 +9,7 @@ from django.utils import module_loading
 
 # 3rd Party
 from annoying.fields import JSONField
+from mptt.models import MPTTModel, TreeForeignKey
 
 try:
     import django_jinja
@@ -17,7 +18,7 @@ except ImportError as e:
     django_jinja = None
 
 
-class Template(models.Model):
+class Template(MPTTModel):
     """
     The ultimate database-driven Django template experience.
     """
@@ -32,9 +33,12 @@ class Template(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField(blank=True)
     template_engine = models.IntegerField(choices=ENGINES, default=DJANGO, verbose_name="Template Engine")
-    parent = models.ForeignKey('self', blank=True, null=True,
+    parent = TreeForeignKey('self', blank=True, null=True,
         help_text="Select another template this template should extend.", related_name="children")
     default_context = JSONField(default="{}", blank=True, verbose_name="Default Context")
+
+    class MPTTMeta:
+        order_insertion_by = ["name"]
 
     class Meta:
         verbose_name = 'Template'
@@ -82,36 +86,11 @@ class Template(models.Model):
     def render_default(self):
         return self.as_template().render(Context(self.default_context))
 
-    def add_block(self, name="content", content=""):
-        return TemplateBlock.objects.create(template=self, name=name, content=content)
-
     def get_content(self):
         content = self.content
         if self.parent:
             # If there's a parent, add the {% extends `parent-name` %}
             # tag at the top
-            content = """{%% extends "%s" %%}""" % (self.parent.name,)
-
-            for block in self.blocks.all():
-                content += "\n\n{%% block %s %%}%s{%% endblock %s %%}" % (block.name, block.content, block.name,)
+            content = """{{% extends "{0}" %}}\n\n{1}""".format(self.parent.name, content)
 
         return content
-
-
-class TemplateBlock(models.Model):
-    """
-    How Templates influence their Parent.
-    """
-    template = models.ForeignKey(Template, related_name="blocks")
-    name = models.CharField(max_length=255)
-    content = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name = "Template Block"
-        verbose_name_plural = "Template Blocks"
-        unique_together = (
-            ("template", "name",),
-        )
-
-    def __unicode__(self):
-        return "%s: %s" % (self.template.__unicode__(), self.name,)

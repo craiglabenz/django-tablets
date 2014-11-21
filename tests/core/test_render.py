@@ -2,11 +2,9 @@ from __future__ import unicode_literals
 
 # Django
 from django.core.urlresolvers import reverse
-from django.db import models
 from django.template.base import Template as DjangoBaseTemplate
 from django.template.loader import get_template
 from django.test import TestCase
-from django.test.utils import override_settings
 
 # Local Apps
 from tablets.models import Template
@@ -19,8 +17,12 @@ class TemplateTester(TestCase):
 
         # Both will default to Django templates
         self.parent_template = Template.objects.create(name="Parent Tmpl", parent=None, content="Hello{% block content %}, {{ name }}{% endblock content %}!", default_context='{"name": "World"}')
-        self.child_template = Template.objects.create(name="Child Tmpl", parent=self.parent_template, default_context='{"name": "Marco Polo"}')
-        self.child_template.add_block(content=" dearest ole pal, {{ name }}")
+        self.child_template = Template.objects.create(
+            name="Child Tmpl",
+            parent=self.parent_template,
+            default_context='{"name": "Marco Polo"}',
+            content="""{% block content %} dearest ole pal, {{ name }}{% endblock content %}"""
+        )
 
     def test_get_content(self):
         self.assertEquals(self.parent_template.get_content(), "Hello{% block content %}, {{ name }}{% endblock content %}!")
@@ -57,21 +59,24 @@ class ViewTester(TestCase):
         # to resolve to... the same URL!
         self.assertIn(url, resp.content)
 
+
 class Jinja2Tester(TestCase):
 
     def setUp(self):
         super(Jinja2Tester, self).setUp()
 
-        self.j2template_parent = Template.objects.create(name="Jinja2 Parent", template_engine=Template.JINJA2, content="""
-           <p>This is a Jinja2 Template!</p> {% block content %}PARENT{% endblock content %}
-        """)
+        self.j2template_parent = Template.objects.create(
+            name="Jinja2 Parent",
+            template_engine=Template.JINJA2,
+            content="""<p>This is a Jinja2 Template!</p> {% block content %}PARENT{% endblock content %}"""
+        )
 
-        self.j2template_child = Template.objects.create(name="Jinja2 Child", parent=self.j2template_parent, template_engine=Template.JINJA2)
-        self.j2template_child.add_block(name="content", content="{{ super() }} CHILD")
+        self.j2template_child = Template.objects.create(
+            name="Jinja2 Child",
+            parent=self.j2template_parent,
+            template_engine=Template.JINJA2,
+            content="""{% block content %}{{ super() }} CHILD{% endblock content %}"""
+        )
 
     def test_child_jinja2_render(self):
-        # TODO: Finish Jinja implementation!
-        return
-        self.assertEquals("PARENT CHILD", self.j2template_child.render())
-
-
+        self.assertEquals("<p>This is a Jinja2 Template!</p> PARENT CHILD", self.j2template_child.render())
