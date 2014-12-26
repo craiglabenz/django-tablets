@@ -35,7 +35,9 @@ class Template(MPTTModel):
     template_engine = models.IntegerField(choices=ENGINES, default=DJANGO, verbose_name="Template Engine")
     parent = TreeForeignKey('self', blank=True, null=True,
         help_text="Select another template this template should extend.", related_name="children")
-    default_context = JSONField(default="{}", blank=True, verbose_name="Default Context")
+    default_context = JSONField(default="{}", blank=True, verbose_name="Default Context",
+        help_text="Does not work so well for Jinja2 templates, which throw exceptions for missing values. This can make things "
+        "tough if your template relies on functions.")
 
     class MPTTMeta:
         order_insertion_by = ["name"]

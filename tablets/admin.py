@@ -47,7 +47,7 @@ class ChildInline(admin.TabularInline):
         except Exception:
             return obj.name
     admin_name.short_description = "Name"
-    admin_name.allows_tags = True
+    admin_name.allow_tags = True
 
 
 class TemplateAdmin(AceWidgetMixin, MPTTModelAdmin):
