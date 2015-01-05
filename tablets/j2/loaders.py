@@ -13,9 +13,6 @@ default_loader_dirs = (app_directories.app_template_dirs +
 # 3rd Party
 from .exceptions import Jinja2NotInstalled
 
-# Local Apps
-from ..models import Template
-
 try:
     import jinja2
     from jinja2.loaders import FileSystemLoader
@@ -42,11 +39,14 @@ class Jinja2DatabaseOrFileLoader(FileSystemLoader):
         self.encoding = encoding
 
     def get_source(self, environment, template):
+        # Local Apps
+        from tablets.models import Template
+
         if not jinja2:
             raise Jinja2NotInstalled
 
         def uptodate():
-            return True
+            return not getattr(settings, "JINJA2_SHOULD_RELOAD_DB_TEMPLATES", True)
 
         try:
             tmpl = Template.objects.get(name=template, template_engine=Template.JINJA2)

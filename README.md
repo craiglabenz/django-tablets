@@ -55,6 +55,13 @@ JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
 JINJA2_LOADER = "tablets.j2.loaders.Jinja2DatabaseOrFileLoader"
 ```
 
+Tablets reloads templates from the database each time. To turn off this functionality and only reload templates after an application reload, add this to your settings file:
+```py
+# Defaults to True
+JINJA2_SHOULD_RELOAD_DB_TEMPLATES = False
+```
+
+
 ### Django-Ace in the Admin
 By default, `tablets` uses `django-ace` to use the great [AceWidget](http://ace.c9.io/build/kitchen-sink.html) to for admin in-browser editing.
 
