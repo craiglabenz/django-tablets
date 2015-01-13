@@ -70,6 +70,8 @@ To disable or tweak these settings, adjust the following settings (default value
 USE_ACE_WIDGET = True
 ACE_MODE = "twig"  # Provides syntax highlighting closest to Django/Jinja2 templates
 ACE_THEME = "chrome"
+ACE_WIDTH = "80%"  # Defaults to 100%
+ACE_HEIGHT = "500px"  # Defaults to 350px
 ```
 
 
