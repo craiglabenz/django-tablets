@@ -19,10 +19,11 @@ from .models import Template
 class AceWidgetMixin(object):
     def formfield_for_dbfield(self, db_field, **kwargs):
         if getattr(settings, "USE_ACE_WIDGET", True) and db_field.name == "content":
-            kwargs["widget"] = AceWidget(mode=getattr(settings, "ACE_MODE", "twig"), theme=getattr(settings, "ACE_THEME", "chrome"))
-
+            kwargs["widget"] = AceWidget(mode=getattr(settings, "ACE_MODE", "twig"), 
+                                         theme=getattr(settings, "ACE_THEME", "chrome"),
+                                         width=getattr(settings, "ACE_WIDTH", "100%"),
+                                         height=getattr(settings, "ACE_HEIGHT", "300px"))
         return super(AceWidgetMixin, self).formfield_for_dbfield(db_field, **kwargs)
-
 
 class ChildInline(admin.TabularInline):
     model = Template
