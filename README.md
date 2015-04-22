@@ -4,6 +4,8 @@
     * It works out of the box with regular Django templates, and requires only installing `django-jinja` to support Jinja2 templates.
 * `django-ace` is used to provide a nice in-browser editing experience.
 
+> Note that `tablets` is frozen at Django <= 1.7.*, as Django 1.8's refactor of the template layer makes DB-and-J2 nature of this app completely unnecessary.
+
 
 ### Preview
 ![Admin preview](https://raw.githubusercontent.com/craiglabenz/django-tablets/master/media/admin-change-form.png "Optional Title")
@@ -63,7 +65,7 @@ JINJA2_SHOULD_RELOAD_DB_TEMPLATES = False
 
 
 ### Django-Ace in the Admin
-By default, `tablets` uses `django-ace` to use the great [AceWidget](http://ace.c9.io/build/kitchen-sink.html) to for admin in-browser editing.
+By default, `tablets` uses `django-ace` to use the great [AceWidget](http://ace.c9.io/build/kitchen-sink.html) for admin in-browser editing.
 
 To disable or tweak these settings, adjust the following settings (default values shown):
 ```py

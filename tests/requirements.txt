@@ -1,0 +1,14 @@
+Django
+django-ace
+django-annoying
+django-model-utils
+django-mptt
+django-suit
+django-jinja
+factory-boy
+html2text
+mock
+requests
+South
+
+
