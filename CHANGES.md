@@ -34,3 +34,8 @@ Changelog
 0.4.2 (2014/11/21)
 ------------------
  - Adds mptt, removes "TemplateBlock" model
+
+
+ 0.4.6 (2015/12/08)
+ ------------------
+  - Various DB-vs-filesystem customizations moved to run-time code instead of top of level Django settings
