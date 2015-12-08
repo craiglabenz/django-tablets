@@ -1,10 +1,10 @@
-Django
+Django==1.6
 django-ace
 django-annoying
 django-model-utils
 django-mptt
 django-suit
-django-jinja
+django-jinja==1.0.1
 factory-boy
 html2text
 mock

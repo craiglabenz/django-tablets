@@ -55,12 +55,29 @@ INSTALLED_APPS = (
 
 JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
 JINJA2_LOADER = "tablets.j2.loaders.Jinja2DatabaseOrFileLoader"
+JINJA2_LOADER_SETTINGS = {
+#    'should_prioritize_filesystem': False,
+#    'should_reload_database_templates: True,
+}
 ```
 
-Tablets reloads templates from the database each time. To turn off this functionality and only reload templates after an application reload, add this to your settings file:
+
+Tablets will by default check the database before the filesystem. To look for an existing file
+before checkint the database, change the value of `should_prioritize_filesystem` to True:
 ```py
 # Defaults to True
-JINJA2_SHOULD_RELOAD_DB_TEMPLATES = False
+JINJA2_LOADER_SETTINGS = {
+    'should_prioritize_filesystem': True,
+}
+```
+
+
+Tablets reloads templates from the database each time. To turn off this functionality and only reload templates after an application reload, change the value of `should_reload_database_templates` to False:
+```py
+# Defaults to True
+JINJA2_LOADER_SETTINGS = {
+    'should_reload_database_templates: False,
+}
 ```
 
 
