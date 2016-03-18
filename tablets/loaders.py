@@ -46,3 +46,8 @@ class DatabaseLoader(BaseLoader):
         else:
             from .j2.exceptions import DjangoJinjaNotInstalled
             raise DjangoJinjaNotInstalled
+
+    def load_template_source(self, template_name, template_dirs=None):
+        """ make django-extensions find_template work """
+        return (self.load_template(template_name, template_dirs), 
+                'django-tablets')
