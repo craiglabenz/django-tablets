@@ -20,28 +20,35 @@ INSTALLED_APPS = [
     'core',
 ]
 
-if django.VERSION < (1, 7):
-    INSTALLED_APPS.append("south")
-
-    SOUTH_MIGRATION_MODULES = {
-        "tablets": "tablets.south_migrations"
-    }
-
 
 ######## TEMPLATES CONFIG
-TEMPLATE_LOADERS = (
-    'django_jinja.loaders.AppLoader',  # Optional, only needed if you also have .jinja file templates
-    'django_jinja.loaders.FileSystemLoader',  # Optional, only needed if you also have .jinja file templates
-    # 'django.template.loaders.filesystem.Loader', # Optional -- Not needed if you have the above jinja template loaders, as they encompass this logic
-    # 'django.template.loaders.app_directories.Loader', # Optional -- Not needed if you have the above jinja template loaders, as they encompass this logic
-    'tablets.loaders.DatabaseLoader',
-)
-JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
-JINJA2_LOADER = "tablets.j2.loaders.Jinja2DatabaseOrFileLoader"
-
-TEMPLATE_DIRS = (
-    'templates',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # '/core/templates',
+        ],
+        # 'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+                'tablets.loaders.database.Loader',
+            ]
+        },
+    },
+]
 ######## END TEMPLATES CONFIG
 
 

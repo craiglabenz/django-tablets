@@ -1,10 +1,9 @@
 # django-tablets
 
 * `tablets` is a database templating layer for Django.
-    * It works out of the box with regular Django templates, and requires only installing `django-jinja` to support Jinja2 templates.
+    * It works out of the box with regular Django templates, and requires only installing `jinja2` to support Jinja2 templates.
 * `django-ace` is used to provide a nice in-browser editing experience.
-
-> Note that `tablets` is frozen at Django <= 1.7.*, as Django 1.8's refactor of the template layer makes DB-and-J2 nature of this app completely unnecessary.
+* Requires `django>=1.8`, to leverage the modern templating system
 
 
 ### Preview
@@ -30,54 +29,33 @@ INSTALLED_APPS = (
 
 Add the `tablets` template loader to your `TEMPLATE_LOADERS` setting:
 ```py
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'tablets.loaders.DatabaseLoader',
-)
+TEMPLATES = [
+    ...
+    'loaders': [
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+        'tablets.loaders.database.Loader',
+    ]
+]
 ```
+
+> Make sure you do not define the `APP_DIRS` directory, lest Django complain.
 
 ### Jinja2 Support
 
-If you want to use Jinja2 templates, adjust the above config like so:
-```py
-TEMPLATE_LOADERS = (
-    'django_jinja.loaders.AppLoader',
-    'django_jinja.loaders.FileSystemLoader',
-    'tablets.loaders.DatabaseLoader',
-)
+Only requires running:
 
-INSTALLED_APPS = (
-    ...
-    'django_jinja',
-    'tablets',
-)
-
-JINJA2_TEMPLATE_CLASS = "django_jinja.base.Template"
-JINJA2_LOADER = "tablets.j2.loaders.Jinja2DatabaseOrFileLoader"
-JINJA2_LOADER_SETTINGS = {
-#    'should_prioritize_filesystem': False,
-#    'should_reload_database_templates: True,
-}
+```sh
+pip install jinja2
 ```
 
 
-Tablets will by default check the database before the filesystem. To look for an existing file
-before checkint the database, change the value of `should_prioritize_filesystem` to True:
-```py
-# Defaults to True
-JINJA2_LOADER_SETTINGS = {
-    'should_prioritize_filesystem': True,
-}
-```
-
+### Jinja2 Filecaching
 
 Tablets reloads templates from the database each time. To turn off this functionality and only reload templates after an application reload, change the value of `should_reload_database_templates` to False:
 ```py
 # Defaults to True
-JINJA2_LOADER_SETTINGS = {
-    'should_reload_database_templates: False,
-}
+SHOULD_RELOAD_JINJA2_TEMPLATES = False
 ```
 
 

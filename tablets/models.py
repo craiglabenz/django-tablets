@@ -8,14 +8,20 @@ from django.template import Template as DjangoTemplate, Context
 from django.utils import module_loading
 
 # 3rd Party
-from annoying.fields import JSONField
+from jsonfield import JSONField
 from mptt.models import MPTTModel, TreeForeignKey
 
+
 try:
-    import django_jinja
-    from django_jinja.base import env
+    import jinja2
+    # Local Apps
+    from tablets.j2.loaders import DatabaseLoader
+    env = jinja2.Environment(loader=DatabaseLoader(
+        should_reload_db_templates=getattr(settings, 'SHOULD_RELOAD_JINJA2_TEMPLATES', True)
+    ))
+
 except ImportError as e:
-    django_jinja = None
+    jinja2 = None
 
 
 class Template(MPTTModel):
@@ -27,15 +33,20 @@ class Template(MPTTModel):
     JINJA2 = 2
     ENGINES = (
         (DJANGO, 'Django',),
-        (JINJA2, 'Jinja2',),
     )
+
+    if jinja2:
+        ENGINES = (
+            (DJANGO, 'Django',),
+            (JINJA2, 'Jinja2',)
+        )
 
     name = models.CharField(max_length=255)
     content = models.TextField(blank=True)
     template_engine = models.IntegerField(choices=ENGINES, default=DJANGO, verbose_name="Template Engine")
     parent = TreeForeignKey('self', blank=True, null=True,
         help_text="Select another template this template should extend.", related_name="children")
-    default_context = JSONField(default="{}", blank=True, verbose_name="Default Context",
+    default_context = JSONField(default=dict, blank=True, verbose_name="Default Context",
         help_text="Does not work so well for Jinja2 templates, which throw exceptions for missing values. This can make things "
         "tough if your template relies on functions.")
 
@@ -47,6 +58,9 @@ class Template(MPTTModel):
         verbose_name_plural = 'Templates'
 
     def __unicode__(self):
+        return self.name + ''
+
+    def __str__(self):
         return self.name
 
     @property
@@ -54,9 +68,6 @@ class Template(MPTTModel):
         if self.template_engine == self.DJANGO:
             return DjangoTemplate
         elif self.template_engine == self.JINJA2:
-            if not django_jinja:
-                from .j2.exceptions import DjangoJinjaNotInstalled
-                raise DjangoJinjaNotInstalled
 
             return module_loading.import_by_path(dotted_path=settings.JINJA2_TEMPLATE_CLASS)
 
@@ -68,18 +79,17 @@ class Template(MPTTModel):
         if self.template_engine in [Template.DJANGO]:
             return self.template_engine_class(self.get_content())
         elif self.template_engine in [Template.JINJA2]:
-            if django_jinja:
-                # Make sure the loader is initialized. django-jinja doesn't automatically
-                # handle the initialization in Django 1.7
+            if jinja2:
                 if not env.loader:
                     env.initialize_template_loader()
 
                 return env.from_string(self.get_content())
             else:
-                from .j2.exceptions import DjangoJinjaNotInstalled
-                raise DjangoJinjaNotInstalled
+                from tablets.j2.exceptions import Jinja2NotInstalled
+                raise Jinja2NotInstalled
 
-    def render(self, context={}):
+    def render(self, context=None):
+        context = context or {}
         if self.template_engine in [Template.DJANGO]:
             return self.as_template().render(Context(context))
         else:

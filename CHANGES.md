@@ -39,3 +39,10 @@ Changelog
  0.4.6 (2015/12/08)
  ------------------
   - Various DB-vs-filesystem customizations moved to run-time code instead of top of level Django settings
+
+
+0.5.0 (2016/10/06)
+------------------
+ - Drops requirement for `django_jinja`
+ - Updates to support `django>=1.8`
+ - Drops support `django<=1.7`

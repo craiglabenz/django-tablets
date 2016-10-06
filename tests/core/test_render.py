@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 # Django
 from django.core.urlresolvers import reverse
-from django.template.base import Template as DjangoBaseTemplate
+from django.template.backends.django import Template as DjangoBaseTemplate
 from django.template.loader import get_template
 from django.test import TestCase
 
@@ -16,11 +16,11 @@ class TemplateTester(TestCase):
         super(TemplateTester, self).setUp()
 
         # Both will default to Django templates
-        self.parent_template = Template.objects.create(name="Parent Tmpl", parent=None, content="Hello{% block content %}, {{ name }}{% endblock content %}!", default_context='{"name": "World"}')
+        self.parent_template = Template.objects.create(name="Parent Tmpl", parent=None, content="Hello{% block content %}, {{ name }}{% endblock content %}!", default_context={"name": "World"})
         self.child_template = Template.objects.create(
             name="Child Tmpl",
             parent=self.parent_template,
-            default_context='{"name": "Marco Polo"}',
+            default_context={"name": "Marco Polo"},
             content="""{% block content %} dearest ole pal, {{ name }}{% endblock content %}"""
         )
 
@@ -57,7 +57,7 @@ class ViewTester(TestCase):
 
         # The template includes a URL tag that happens
         # to resolve to... the same URL!
-        self.assertIn(url, resp.content)
+        self.assertIn(url, str(resp.content))
 
 
 class Jinja2Tester(TestCase):
