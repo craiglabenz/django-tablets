@@ -1,6 +1,5 @@
 Django==1.10.2
 django-ace
-django-annoying  # legacy
 django-jsonfield>=1.0.1
 django-model-utils
 django-mptt

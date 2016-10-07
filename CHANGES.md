@@ -46,3 +46,7 @@ Changelog
  - Drops requirement for `django_jinja`
  - Updates to support `django>=1.8`
  - Drops support `django<=1.7`
+
+0.6.0 (2016/10/07)
+------------------
+ - Removes historical usage of `django-annoying`, since it isn't even maintained enough to be migrated away from. This makes `tablets==0.6.0` incompatible for upgrade from earlier versions (without manual work altering your database), as earlier migrations are re-written.
