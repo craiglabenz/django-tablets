@@ -77,7 +77,7 @@ class Template(MPTTModel):
 
     def as_template(self):
         if self.template_engine in [Template.DJANGO]:
-            return self.template_engine_class(self.get_content())
+            return self.template_engine_class(self.get_content(), name=self.name)
         elif self.template_engine in [Template.JINJA2]:
             if jinja2:
                 if not env.loader:
