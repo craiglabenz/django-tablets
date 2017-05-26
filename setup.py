@@ -53,9 +53,9 @@ CLASSIFIERS = [
 
 
 INSTALL_REQUIRES = [
-    "django-annoying",
     "django-ace",
     "django-mptt",
+    "django-jsonfield==1.0.1",
 ]
 
 setup(

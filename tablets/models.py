@@ -64,6 +64,13 @@ class Template(MPTTModel):
         return self.name
 
     @property
+    def source(self):
+        """
+        Pass-thru to Django template attr
+        """
+        return self.content
+
+    @property
     def template_engine_class(self):
         if self.template_engine == self.DJANGO:
             return DjangoTemplate
