@@ -63,6 +63,14 @@ class Template(MPTTModel):
     def __str__(self):
         return self.name
 
+    def get_default_context(self):
+        if self.parent_id:
+            context = self.parent.get_default_context()
+            context.update(self.default_context)
+        else:
+            context = self.default_context.copy()
+        return context
+
     @property
     def source(self):
         """

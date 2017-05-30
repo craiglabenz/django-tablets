@@ -19,7 +19,7 @@ from .models import Template
 class AceWidgetMixin(object):
     def formfield_for_dbfield(self, db_field, **kwargs):
         if getattr(settings, "USE_ACE_WIDGET", True) and db_field.name == "content":
-            kwargs["widget"] = AceWidget(mode=getattr(settings, "ACE_MODE", "twig"), 
+            kwargs["widget"] = AceWidget(mode=getattr(settings, "ACE_MODE", "twig"),
                                          theme=getattr(settings, "ACE_THEME", "chrome"),
                                          width=getattr(settings, "ACE_WIDTH", "100%"),
                                          height=getattr(settings, "ACE_HEIGHT", "300px"))
@@ -54,6 +54,7 @@ class ChildInline(admin.TabularInline):
 class TemplateAdmin(AceWidgetMixin, MPTTModelAdmin):
     inlines = [ChildInline]
     list_display = ["name", "parent", "template_engine"]
+    raw_id_fields = ["parent"]
     mptt_level_indent = 20
 
     @property
@@ -69,7 +70,7 @@ class TemplateAdmin(AceWidgetMixin, MPTTModelAdmin):
 
     def render(self, request, obj_id):
         template = get_object_or_404(Template, pk=obj_id)
-        return HttpResponse(template.render(template.default_context))
+        return HttpResponse(template.render(template.get_default_context()))
 
 
 admin.site.register(Template, TemplateAdmin)
