@@ -54,3 +54,13 @@ Changelog
 0.6.1 (2017/05/23)
 ------------------
  - Uses django.template.Template.name attr when casting from Tablet record
+
+
+0.6.2 (2017/05/26)
+------------------
+ - Improved duck-typing with actual Django templates
+
+
+0.6.3 (2017/05/30)
+------------------
+ - Admin improvements
