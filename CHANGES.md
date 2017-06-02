@@ -64,3 +64,7 @@ Changelog
 0.6.3 (2017/05/30)
 ------------------
  - Admin improvements
+
+0.6.4 (2017/06/02)
+------------------
+ - Added pointer to original Tablet record to the returned Template

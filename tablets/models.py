@@ -92,13 +92,17 @@ class Template(MPTTModel):
 
     def as_template(self):
         if self.template_engine in [Template.DJANGO]:
-            return self.template_engine_class(self.get_content(), name=self.name)
+            template = self.template_engine_class(self.get_content(), name=self.name)
+            template.tablet = self
+            return template
         elif self.template_engine in [Template.JINJA2]:
             if jinja2:
                 if not env.loader:
                     env.initialize_template_loader()
 
-                return env.from_string(self.get_content())
+                template = env.from_string(self.get_content())
+                template.tablet = self
+                return template
             else:
                 from tablets.j2.exceptions import Jinja2NotInstalled
                 raise Jinja2NotInstalled
