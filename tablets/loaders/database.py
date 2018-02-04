@@ -29,7 +29,7 @@ class Loader(Loader):
     def get_template_sources(self, template_name, template_dirs=None):
         try:
             template = Template.objects.get(name=template_name)
-            return Origin(
+            yield Origin(
                 name=template.name,
                 template_name=template.name,
                 loader=self
