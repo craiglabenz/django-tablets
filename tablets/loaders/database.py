@@ -11,7 +11,6 @@ from tablets.models import Template
 class Loader(Loader):
 
     is_usable = True
-    supports_recursion = True
 
     def __call__(self, template_name, template_dirs=None):
         return self.load_template(template_name, template_dirs)
@@ -27,12 +26,12 @@ class Loader(Loader):
             raise TemplateDoesNotExist(template_name)
 
     def get_template_sources(self, template_name, template_dirs=None):
-        try:
-            template = Template.objects.get(name=template_name)
-            yield Origin(
-                name=template.name,
-                template_name=template.name,
-                loader=self
-            )
-        except Template.DoesNotExist:
-            raise TemplateDoesNotExist(template_name)
+        return [Origin(
+            name=template_name,
+            template_name=template_name,
+            loader=self
+        )]
+
+    def get_contents(self, origin):
+        template, name = self.load_template(origin.template_name)
+        return template.source
