@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 # Django
-from django.template import TemplateDoesNotExist
+from django.template import Origin, TemplateDoesNotExist
 from django.template.loaders.base import Loader
 
 # Local Apps
@@ -11,6 +11,7 @@ from tablets.models import Template
 class Loader(Loader):
 
     is_usable = True
+    supports_recursion = True
 
     def __call__(self, template_name, template_dirs=None):
         return self.load_template(template_name, template_dirs)
@@ -22,5 +23,16 @@ class Loader(Loader):
         try:
             template = Template.objects.get(name=template_name)
             return template.as_template(), template_name
+        except Template.DoesNotExist:
+            raise TemplateDoesNotExist(template_name)
+
+    def get_template_sources(self, template_name, template_dirs=None):
+        try:
+            template = Template.objects.get(name=template_name)
+            return Origin(
+                name=template.name,
+                template_name=template.name,
+                loader=self
+            )
         except Template.DoesNotExist:
             raise TemplateDoesNotExist(template_name)

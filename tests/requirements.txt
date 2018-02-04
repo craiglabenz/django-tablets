@@ -1,4 +1,4 @@
-Django==1.10.2
+Django==1.11.10
 django-ace
 django-jsonfield>=1.0.1
 django-model-utils
@@ -8,5 +8,4 @@ factory-boy
 html2text
 mock
 requests
-
-
+jinja2
