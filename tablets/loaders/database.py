@@ -35,3 +35,14 @@ class Loader(Loader):
     def get_contents(self, origin):
         template, name = self.load_template(origin.template_name)
         return template.source
+
+    def get_template(self, template_name, template_dirs=None, skip=None):
+        template = super(Loader, self).get_template(template_name, template_dirs, skip)
+
+        # TODO: Create a new Engine that is does nothing special outside of
+        #       the default Engine, except for its ability to programmatically
+        #       determine which Tablet was used
+        if not hasattr(template, 'tablet'):
+            template.tablet = Template.objects.get(name=template_name)
+
+        return template
