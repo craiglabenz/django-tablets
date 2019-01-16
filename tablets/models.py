@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 # Django
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.template import Template as DjangoTemplate, Context
 from django.utils import module_loading
@@ -45,7 +45,7 @@ class Template(MPTTModel):
     content = models.TextField(blank=True)
     template_engine = models.IntegerField(choices=ENGINES, default=DJANGO, verbose_name="Template Engine")
     parent = TreeForeignKey('self', blank=True, null=True,
-        help_text="Select another template this template should extend.", related_name="children")
+        help_text="Select another template this template should extend.", related_name="children", on_delete=models.CASCADE)
     default_context = JSONField(default=dict, blank=True, verbose_name="Default Context",
         help_text="Does not work so well for Jinja2 templates, which throw exceptions for missing values. This can make things "
         "tough if your template relies on functions.")

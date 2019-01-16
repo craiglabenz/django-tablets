@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 # Django
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.backends.django import Template as DjangoBaseTemplate
 from django.template.loader import get_template
 from django.test import TestCase
