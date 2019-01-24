@@ -3,7 +3,7 @@
 * `tablets` is a database templating layer for Django.
     * It works out of the box with regular Django templates, and requires only installing `jinja2` to support Jinja2 templates.
 * `django-ace` is used to provide a nice in-browser editing experience.
-* Requires `django>=1.8`, to leverage the modern templating system
+* Version `0.7.0` is only compatible with `django==2.x`. For earlier versions of Django, use `tablets==0.6.5rc8`.
 
 
 ### Preview
