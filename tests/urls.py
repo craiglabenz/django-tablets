@@ -13,7 +13,7 @@ from core.views import DummyView
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^jinja-parent/$', TemplateView.as_view(template_name="Jinja 2 Parent"), name="jinja2-parent"),
     url(r'^jinja-child/$', TemplateView.as_view(template_name="Jinja 2 Child"), name="jinja2-child"),
     url(r'^jinja-file/$', TemplateView.as_view(template_name="marco.jinja"), name="marco"),

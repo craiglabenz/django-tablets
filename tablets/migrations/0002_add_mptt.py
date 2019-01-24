@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='template',
             name='parent',
-            field=mptt.fields.TreeForeignKey(related_name='children', blank=True, to='tablets.Template', help_text='Select another template this template should extend.', null=True),
+            field=mptt.fields.TreeForeignKey(related_name='children', blank=True, to='tablets.Template', help_text='Select another template this template should extend.', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]
