@@ -1,4 +1,4 @@
-Django==2.1.5
+Django==2.1.11
 django-ace
 django-jsonfield>=1.0.1
 django-model-utils
